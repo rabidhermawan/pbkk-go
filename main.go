@@ -2,15 +2,21 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 const conferenceTickets int = 50
 
 var conferenceName = "Go Conference" // This can't work if we are declaring constant or explicitly defining a type
 var remainingTickets uint = 50
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
 
 func main() {
 	// var conferenceName string = "Go Conference"
@@ -81,7 +87,7 @@ func getFirstNames() []string {
 
 	// for index, booking := range bookings {
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	// fmt.Printf("There first name of bookings are: %v\n", firstNames)
 
@@ -118,15 +124,16 @@ func getUserInput() (string, string, string, uint) {
 	return firstName, lastName, email, userTickets
 }
 
-func bookTicket(firstName string, lastName string, email string, userTickets uint) []map[string]string {
+func bookTicket(firstName string, lastName string, email string, userTickets uint) []UserData {
 	remainingTickets = remainingTickets - userTickets
 
 	// Create map for user
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
 	fmt.Printf("List of bookings are %v\n", bookings)
