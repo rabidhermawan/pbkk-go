@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"pbkk-go/helper"
 	"strings"
 )
 
@@ -24,7 +25,7 @@ func main() {
 	for remainingTickets > 0 && len(bookings) < 50 {
 
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookings = bookTicket(firstName, lastName, email, userTickets, bookings)
@@ -86,14 +87,6 @@ func getFirstNames() []string {
 	// fmt.Printf("There first name of bookings are: %v\n", firstNames)
 
 	return firstNames
-}
-
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-
-	return isValidName, isValidEmail, isValidTicketNumber
 }
 
 func getUserInput() (string, string, string, uint) {
